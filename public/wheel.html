@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiếc Nón Kỳ Diệu</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .wheel-container { max-width: 800px; margin: auto; text-align: center; }
+        .phrase-board { display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap; background:#16213e; padding: 20px; border-radius: 10px;}
+        .letter-box { width: 45px; height: 55px; background: #0f3460; border: 2px solid #fff; font-size: 30px; font-weight: bold; line-height: 55px; color: white; display: inline-block; text-transform: uppercase; border-radius: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);}
+        .letter-space { width: 20px; border: none; background: transparent; }
+        .action-panel { background: #0f3460; padding: 20px; border-radius: 10px; margin-top: 20px; min-height: 120px; border: 2px solid #1a5294;}
+        .player-list { display: flex; justify-content: space-around; margin-bottom: 20px; gap: 10px;}
+        .player-card { background: #16213e; padding: 15px; border-radius: 8px; border: 2px solid transparent; width: 22%; font-size: 1.1rem;}
+        .player-card.active-turn { border-color: #facc15; box-shadow: 0 0 15px #facc15; background: #332d10;}
+        .chat-box { height: 130px; overflow-y: auto; background: #050510; color: #0f0; font-family: monospace; text-align: left; padding: 10px; border-radius: 5px; margin-top: 20px; border: 1px solid #333;}
+        input[type="text"].guess-input { width: 70px; font-size: 28px; text-align: center; text-transform: uppercase; border: 2px solid #e94560; background: #1a1a2e; color: white; border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <div class="wheel-container">
+        <h1 style="color:#facc15;">🎡 Chiếc Nón Kỳ Diệu</h1>
+        
+        <!-- Màn hình Game (Vào thẳng luôn) -->
+        <div id="game-screen" class="screen active">
+            <div class="player-list" id="players-container">
+                <!-- Danh sách người chơi -->
+            </div>
+            
+            <div style="display:flex; justify-content: space-between; align-items:center; background:#16213e; padding:10px 20px; border-radius:10px;">
+                <h3 style="color:#facc15; margin:0;" id="turn-indicator">Đang vào phòng...</h3>
+                <h3 style="color:#e94560; margin:0;">⏱ <span id="time-left">10</span>s</h3>
+            </div>
+
+            <!-- Khung ô chữ -->
+            <div class="phrase-board" id="phrase-container"></div>
+
+            <!-- Bảng điều khiển lượt chơi -->
+            <div class="action-panel" id="action-panel">
+                <button id="btn-start" style="display:none; background:#28a745;">Bắt Đầu Trò Chơi (Admin)</button>
+                
+                <div id="play-controls" style="display:none;">
+                    <div id="spin-control">
+                        <p style="font-size: 1.2rem; color: #fff;">Đến lượt bạn quay nón!</p>
+                        <button id="btn-spin" style="background: #facc15; color:#000; font-size: 20px; font-weight:bold; padding: 15px 30px;">🎲 Quay Nón</button>
+                    </div>
+                    <div id="guess-control" style="display:none;">
+                        <p style="font-size: 1.2rem;">Bạn vừa quay vào ô: <strong id="spin-value-display" style="color:#facc15; font-size:1.5rem;"></strong></p>
+                        <p>Hãy đoán 1 chữ cái:</p>
+                        <input type="text" id="guess-input" class="guess-input" maxlength="1" autocomplete="off">
+                        <button id="btn-guess">Đoán Chữ</button>
+                    </div>
+                </div>
+
+                <div id="wait-controls" style="display:none;">
+                    <p style="color:#aaa; font-size: 1.2rem; margin-top:20px;">⏳ Đang chờ bắt đầu hoặc chờ người khác thao tác...</p>
+                </div>
+            </div>
+
+            <!-- Khung log/chat -->
+            <div class="chat-box" id="chat-box">
+                <div><i>Hệ thống: Chào mừng đến với Chiếc Nón Kỳ Diệu!</i></div>
+            </div>
+            <br>
+            <a href="index.html" style="color:#aaa; text-decoration:none;">⬅ Rời khỏi phòng (Về sảnh)</a>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="wheel.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đấu Trường 100</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 Đấu Trường 100</h1>
+        
+        <!-- Màn hình 1: Phòng Chờ (Bỏ qua Login vì đã xác thực ở Sảnh) -->
+        <div id="waiting-screen" class="screen active">
+            <h2>Phòng Chờ</h2>
+            <p>Số người đang kết nối: <span id="player-count">0</span> / 100</p>
+            <ul id="player-list"></ul>
+            <button id="btn-start" style="display:none; background-color: #28a745;">Bắt đầu Game (Admin)</button>
+            <br><br><a href="index.html" style="color:#aaa; text-decoration:none;">⬅ Rời phòng (Về sảnh chính)</a>
+        </div>
+
+        <!-- Màn hình 2: Game -->
+        <div id="game-screen" class="screen">
+            <div class="header">
+                <span class="status" id="my-status">Trạng thái: ...</span>
+                <span class="timer">Thời gian: <strong id="time-left">10</strong>s</span>
+            </div>
+            <h2 id="question-text">Đang tải câu hỏi...</h2>
+            <div class="options" id="options-container"></div>
+            <p id="feedback-msg" class="feedback"></p>
+        </div>
+
+        <!-- Màn hình 3: Kết quả vòng -->
+        <div id="result-screen" class="screen">
+            <h2>Kết Quả Vòng Thi</h2>
+            <p id="result-info" style="font-size: 1.2rem; margin-bottom: 20px;"></p>
+            <div class="stats-box">
+                <p>Số người còn sống: <strong id="survivor-count" style="color:#28a745;"></strong></p>
+                <p>Những người bị loại: <span id="eliminated-list" style="color:#dc3545;"></span></p>
+            </div>
+            <p><i>Chuẩn bị câu hỏi tiếp theo...</i></p>
+        </div>
+
+        <!-- Màn hình 4: Kết thúc Game -->
+        <div id="end-screen" class="screen">
+            <h2>Kết Thúc Game</h2>
+            <h3 id="end-reason"></h3>
+            <p class="winner-text">Người chiến thắng: <strong id="winners"></strong></p>
+            <button onclick="location.reload()">Đợi ván mới</button>
+            <br><br><a href="index.html" style="color:#aaa; text-decoration:none;">⬅ Về sảnh chính</a>
+        </div>
+    </div>
+
+    <!-- Nạp thư viện socket.io tự động được sinh ra bởi server -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="arena.js"></script>
+</body>
+</html>

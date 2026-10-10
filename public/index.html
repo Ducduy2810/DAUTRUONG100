@@ -2,64 +2,78 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đấu Trường 100</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Cổng Game Mạng - Đăng Nhập</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; text-align: center; margin: 0;}
+        .container { background: #1e293b; padding: 30px; border-radius: 10px; width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        input { width: 85%; padding: 12px; margin: 10px 0; border-radius: 5px; border: none; font-size: 16px; background:#334155; color:white;}
+        input:focus { outline: 2px solid #3b82f6;}
+        button { width: 92%; padding: 14px; margin: 10px 0; background: #3b82f6; color: white; border: none; border-radius: 5px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s;}
+        button:hover { background: #2563eb; }
+        .social-btn { display: flex; align-items: center; justify-content: center; background: white; color: black; border: 1px solid #ccc; font-weight: normal; }
+        .social-btn img { height: 20px; margin-right: 10px; }
+        .hidden { display: none !important; }
+        .portal-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 140px; text-decoration: none; color: white; border-radius: 10px; font-weight: bold; font-size: 1.2rem; margin: 15px 0; transition: 0.3s;}
+        .btn-arena { background: linear-gradient(135deg, #e11d48, #be123c); }
+        .btn-wheel { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+        .portal-btn:hover { transform: scale(1.05); }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🏆 Đấu Trường 100</h1>
+    <div id="auth-section" class="container">
+        <h2 style="color:#facc15; margin-top:0;">Đăng Nhập</h2>
+        <p id="auth-msg" style="color:#ef4444; font-size:0.9em;"></p>
         
-        <!-- Màn hình 1: Đăng nhập -->
-        <div id="login-screen" class="screen active">
-            <p>Nhập tên của bạn để tham gia vào đấu trường mạng!</p>
-            <input type="text" id="username" placeholder="Ví dụ: Player01..." autocomplete="off">
-            <button id="btn-join">Tham Gia</button>
-        </div>
-
-        <!-- Màn hình 2: Phòng Chờ -->
-        <div id="waiting-screen" class="screen">
-            <h2>Phòng Chờ</h2>
-            <p>Số người đang kết nối: <span id="player-count">0</span> / 100</p>
-            <ul id="player-list"></ul>
-            <button id="btn-start" style="display:none; background-color: #28a745;">Bắt đầu Game</button>
-        </div>
-
-        <!-- Màn hình 3: Game -->
-        <div id="game-screen" class="screen">
-            <div class="header">
-                <span class="status" id="my-status">Trạng thái: ...</span>
-                <span class="timer">Thời gian: <strong id="time-left">10</strong>s</span>
+        <!-- FORM ĐĂNG NHẬP -->
+        <div id="login-form">
+            <input type="text" id="login-username" placeholder="Tên đăng nhập" autocomplete="off">
+            <input type="password" id="login-password" placeholder="Mật khẩu">
+            <button id="btn-login">Đăng Nhập</button>
+            <div style="display:flex; justify-content:space-between; font-size: 0.9em; width:90%; margin:auto;">
+                <a href="#" id="link-forgot" style="color:#facc15; text-decoration:none;">Quên mật khẩu?</a>
+                <span>Chưa có TK? <a href="#" id="link-register" style="color:#60a5fa; text-decoration:none;">Đăng ký</a></span>
             </div>
-            <h2 id="question-text">Đang tải câu hỏi...</h2>
-            <div class="options" id="options-container">
-                <!-- Javascript sẽ render nút ở đây -->
-            </div>
-            <p id="feedback-msg" class="feedback"></p>
         </div>
 
-        <!-- Màn hình 4: Kết quả vòng -->
-        <div id="result-screen" class="screen">
-            <h2>Kết Quả Vòng Thi</h2>
-            <p id="result-info" style="font-size: 1.2rem; margin-bottom: 20px;"></p>
-            <div class="stats-box">
-                <p>Số người còn sống: <strong id="survivor-count" style="color:#28a745;"></strong></p>
-                <p>Những người bị loại: <span id="eliminated-list" style="color:#dc3545;"></span></p>
-            </div>
-            <p><i>Chuẩn bị câu hỏi tiếp theo...</i></p>
+        <!-- FORM ĐĂNG KÝ -->
+        <div id="register-form" class="hidden">
+            <input type="text" id="reg-username" placeholder="Tên đăng nhập mới" autocomplete="off">
+            <input type="email" id="reg-email" placeholder="Nhập Email (Dùng để khôi phục MK)" autocomplete="off">
+            <input type="password" id="reg-password" placeholder="Mật khẩu mới">
+            <button id="btn-register" style="background:#10b981;">Tạo Tài Khoản</button>
+            <p style="font-size: 0.9em;">Đã có tài khoản? <a href="#" id="link-login" style="color:#60a5fa;">Đăng nhập ngay</a></p>
         </div>
 
-        <!-- Màn hình 5: Kết thúc Game -->
-        <div id="end-screen" class="screen">
-            <h2>Kết Thúc Game</h2>
-            <h3 id="end-reason"></h3>
-            <p class="winner-text">Người chiến thắng: <strong id="winners"></strong></p>
-            <button onclick="location.reload()">Chơi lại ván mới</button>
+        <!-- FORM QUÊN MẬT KHẨU -->
+        <div id="forgot-form" class="hidden">
+            <p style="font-size:0.9em; margin-bottom:15px; color:#94a3b8;">Nhập Email đã đăng ký, chúng tôi sẽ gửi thư chứa đường link đặt lại mật khẩu.</p>
+            <input type="email" id="forgot-email" placeholder="Nhập Email của bạn..." autocomplete="off">
+            <button id="btn-forgot" style="background:#f59e0b;">Gửi Email Khôi Phục</button>
+            <p style="font-size: 0.9em;"><a href="#" id="link-back-login" style="color:#60a5fa; text-decoration:none;">⬅ Quay lại đăng nhập</a></p>
+        </div>
+
+        <hr style="border-color: #334155; margin: 20px 0;">
+        <p style="font-size: 0.9em; color:#94a3b8;">Hoặc đăng nhập bằng</p>
+        <button class="social-btn" onclick="window.location.href='/auth/google'">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G"> Đăng nhập bằng Google
+        </button>
+    </div>
+
+    <!-- SẢNH GAME -->
+    <div id="portal-section" class="container hidden" style="width: 600px;">
+        <h1 style="color:#facc15; margin-bottom: 5px;">🎮 Game Portal</h1>
+        <p style="font-size: 1.1em;">Xin chào, <strong id="display-name" style="color:#60a5fa; font-size: 1.2em;"></strong>! <a href="#" id="btn-logout" style="color:#f87171; font-size:0.9em; margin-left:10px;">(Đăng xuất)</a></p>
+        
+        <div style="display:flex; gap:20px; justify-content:center; margin-top:30px;">
+            <a href="arena.html" class="portal-btn btn-arena" style="flex:1;">
+                <span style="font-size:2.5rem; margin-bottom:10px;">🏆</span>Đấu Trường 100
+            </a>
+            <a href="wheel.html" class="portal-btn btn-wheel" style="flex:1;">
+                <span style="font-size:2.5rem; margin-bottom:10px;">🎡</span>Chiếc Nón Kỳ Diệu
+            </a>
         </div>
     </div>
 
-    <!-- Nạp thư viện socket.io tự động được sinh ra bởi server -->
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="client.js"></script>
+    <script src="auth.js"></script>
 </body>
 </html>

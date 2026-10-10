@@ -1,0 +1,9 @@
+# Bỏ qua thư mục thư viện
+node_modules/
+
+# BỎ QUA FILE CHỨA CÁC MẬT KHẨU NHẠY CẢM
+.env
+
+# Bỏ qua file Cơ sở dữ liệu (Tránh làm đè dữ liệu tài khoản khi clone code sang máy khác)
+game_users.db
+*.db
